@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>きかんしゃトーマス キャラクターあてクイズ！</title>
+  <meta name="description" content="きかんしゃトーマスのなかまたちをあてる楽しいクイズアプリ！3秒でだれかあててみよう！">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="clouds-container">
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+  </div>
+
+  <div class="app-container">
+    <!-- ヘッダーバー -->
+    <header class="app-header">
+      <div class="header-logo">
+        <span class="train-icon">🚂</span>
+        <span class="app-title-text">きかんしゃトーマス クイズ</span>
+      </div>
+      <div class="sound-toggle-btn" id="soundToggleBtn" title="おと ON/OFF">
+        <span id="soundIcon">🔊</span>
+      </div>
+    </header>
+
+    <!-- スタート画面 -->
+    <section id="startScreen" class="screen active">
+      <div class="card start-card">
+        <div class="hero-badge">ぜんぶで 10 もん！</div>
+        <h1 class="main-title">
+          <span class="title-sub">だーれだ？</span><br>
+          きかんしゃトーマス<br>
+          <span class="title-highlight">キャラクターあてクイズ</span>
+        </h1>
+        
+        <div class="start-banner-img">
+          <img src="images/thomas.jpg" alt="トーマス" id="startHeroImg">
+          <div class="steam-puff puff-1"></div>
+          <div class="steam-puff puff-2"></div>
+        </div>
+
+        <div class="rule-box">
+          <div class="rule-item">
+            <span class="rule-num">⏱️ 3びょう</span>
+            <span class="rule-desc">しゃしんをみて だれかあててね！</span>
+          </div>
+          <div class="rule-item">
+            <span class="rule-num">✨ こたえ</span>
+            <span class="rule-desc">3びょうたつと なまえがでるよ！</span>
+          </div>
+          <div class="rule-item">
+            <span class="rule-num">⏩ つぎへ</span>
+            <span class="rule-desc">3びょうごに じどうでつぎのもんだいへ！</span>
+          </div>
+        </div>
+
+        <button id="startBtn" class="btn btn-primary pulse-btn">
+          <span>しゅっぱつしんこう！ (スタート)</span>
+          <span class="whistle-emoji">💨</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- クイズ画面 -->
+    <section id="quizScreen" class="screen">
+      <!-- 進行プログレス -->
+      <div class="quiz-top-bar">
+        <div class="question-count-badge">
+          だい <span id="currentQuestionNum">1</span> / 10 もん
+        </div>
+        <div class="progress-track">
+          <div id="quizProgressBar" class="progress-fill"></div>
+        </div>
+        <div class="score-display">
+          せいかい: <span id="currentScore">0</span>
+        </div>
+      </div>
+
+      <!-- タイマーステータスバー -->
+      <div class="timer-section">
+        <div class="timer-indicator-wrapper">
+          <div id="timerText" class="timer-text">3</div>
+          <svg class="timer-svg" viewBox="0 0 100 100">
+            <circle class="timer-circle-bg" cx="50" cy="50" r="42"></circle>
+            <circle id="timerCircle" class="timer-circle-progress" cx="50" cy="50" r="42"></circle>
+          </svg>
+        </div>
+        <div id="phaseMessage" class="phase-message">このきかんしゃは だーれだ？</div>
+      </div>
+
+      <!-- メインキャラクター画像カード -->
+      <div class="quiz-card">
+        <div class="image-frame">
+          <img id="characterImage" src="" alt="クイズのキャラクター" class="character-image">
+          
+          <!-- 正解発表オーバーレイ (フェーズ2で表示) -->
+          <div id="revealOverlay" class="reveal-overlay">
+            <div class="reveal-badge">せいかいは...！</div>
+            <div id="revealedName" class="revealed-name">トーマス</div>
+            <div id="revealedMeta" class="revealed-meta">1ばん・あおいろの きかんしゃ</div>
+            <div class="next-countdown">つぎのもんだいまで あと <span id="nextSeconds">3</span> びょう</div>
+          </div>
+        </div>
+
+        <!-- 4つの選択肢 (3秒以内にタップ可能) -->
+        <div id="choicesGrid" class="choices-grid">
+          <!-- 動的生成 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 結果画面 -->
+    <section id="resultScreen" class="screen">
+      <div class="card result-card">
+        <div class="result-trophy">🏆</div>
+        <h2 class="result-title">しゅうてん！ おつかれさま！</h2>
+        
+        <div class="score-summary-box">
+          <div class="score-label">あなたの スコア</div>
+          <div class="final-score-row">
+            <span id="finalScore" class="final-score">10</span>
+            <span class="score-slash">/</span>
+            <span class="max-score">10 もん</span>
+          </div>
+          <div id="scoreComment" class="score-comment">すごーい！ きみはトーマスはかせだね！</div>
+        </div>
+
+        <!-- 登場したキャラクター一覧ギャラリー -->
+        <div class="characters-summary">
+          <h3 class="summary-subtitle">とうじょうした なかまたち</h3>
+          <div id="charactersGallery" class="characters-gallery">
+            <!-- 動的生成 -->
+          </div>
+        </div>
+
+        <button id="restartBtn" class="btn btn-primary pulse-btn">
+          <span>もういっかい あそぶ！</span>
+          <span>🔄</span>
+        </button>
+      </div>
+    </section>
+
+    <footer class="app-footer">
+      <p>きかんしゃトーマス キャラクターあてクイズ 🚂</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
