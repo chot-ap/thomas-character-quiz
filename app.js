@@ -362,21 +362,21 @@ class ThomasQuizApp {
       this.dom.choicesGrid.appendChild(btn);
     });
 
-    // 3秒シンキングタイムのカウントダウン開始
-    this.startThinkingTimer(3000);
+    // 10秒シンキングタイムのカウントダウン開始
+    this.startThinkingTimer(10000);
   }
 
-  // 3秒のカウントダウン (シンキング)
+  // 10秒のカウントダウン (シンキング)
   startThinkingTimer(durationMs) {
     const startTime = performance.now();
     const circumference = 264; // 2 * pi * 42
-    let lastSecond = 3;
+    let lastSecond = Math.ceil(durationMs / 1000);
 
     // タイマーサークル初期化
     this.dom.timerCircle.style.stroke = "var(--accent-red)";
     this.dom.timerText.style.color = "var(--accent-red)";
     this.dom.timerCircle.style.strokeDashoffset = "0";
-    this.dom.timerText.textContent = "3";
+    this.dom.timerText.textContent = lastSecond.toString();
     this.sound.playTick();
 
     const update = (now) => {
